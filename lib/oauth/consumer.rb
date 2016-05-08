@@ -380,9 +380,10 @@ module OAuth
         raise ArgumentError, "Don't know how to handle http_method: :#{http_method.to_s}"
       end
 
+      # if its a hash, encode to JSON
       if data.is_a?(Hash)
-        request.body = OAuth::Helper.normalize(data)
-        request.content_type = 'application/x-www-form-urlencoded'
+        request.body = data.to_json
+        request.content_type = 'application/json'
       elsif data
         if data.respond_to?(:read)
           request.body_stream = data
